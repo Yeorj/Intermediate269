@@ -1,13 +1,16 @@
 
 CC=g++
 
-CFLAG=-c -Wall -g
+CFLAGS = -Wall -g
 
-test: main.o
-	$(CC) main.o -o test
+test: main.o mirror.o
+	$(CC) $(CFLAGS) main.o mirror.o -o test
 
-main.o:
-	$(CC) $(CFLAG) main.cpp
+main.o: mirror.h main.cpp
+	$(CC) $(CFLAGS) -c main.cpp
+
+mirror.o: mirror.h mirror.cpp
+	$(CC) $(CFLAGS) -c mirror.cpp
 
 clean:
 	rm *.o test
