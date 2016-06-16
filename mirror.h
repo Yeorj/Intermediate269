@@ -1,11 +1,14 @@
 #include <fstream>
 #include <string>
+#include <iostream>
+#include <cctype>
 
 #ifndef MIRROR_H
 #define MIRROR_H
 
 #define SIZE_OF_ALPHABET 13
-
+#define START_BIG_ALPHA 65
+#define START_SMALL_ALPHA 97
 class Mirror{
   public:
     Mirror(std::ifstream*);
@@ -14,17 +17,15 @@ class Mirror{
     char** getEncryption();
     char* getHiddenMsg();
     std::string getCodedMsg();
-
+    std::string getDecodedMsg();
 
 
   private:
     char** encryption;
     std::string codedMsg;
-    char library[26][2] = {{'A','n'}, {'B', 'o'}, {'C', 'p'}, {'D','q'}, {'E','r'},{'F','s'},
-      {'G', 't'}, {'H','u'}, {'I','v'}, {'J','w'}, {'K','x'}, {'L', 'y'},
-      {'M', 'z'}, {'N','a'}, {'O', 'b'}, {'P', 'c'}, {'Q', 'd'}, {'R', 'e'},
-      {'S','f'}, {'T', 'g'}, {'U', 'h'}, {'V','i'}, {'W','j'}, {'X', 'k'},
-      {'Y', 'l'}, {'Z', 'm'}};
+    std::string decodedMsg;
+    char oriDict[52];
+    char encryptDict[52];
 
     /* Translates the library */
     void translate();
