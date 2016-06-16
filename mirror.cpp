@@ -46,3 +46,37 @@ char** Mirror::getEncryption(){
 std::string Mirror::getCodedMsg(){
   return codedMsg;
 }
+
+void Mirror::translate(){
+
+  return 0;
+
+}
+
+/* TODO TODO TODO: Good start, but change dictionary to a single array with 52 chars.
+ * shift the array so that you can traverse it using the chars as index numbers and solve that way */
+char Mirror::left(int* start){
+  while(true){
+    start[0]--;
+    if(encryption[start[0]][start[1]] == '\\'){
+      return up(start);
+    }else if(encryption[start[0]][start[1]] == '/'){
+      return down(start);
+    }
+    else if(start[0] == -1){
+      return dictionary[]
+    }
+  }
+}
+
+char Mirror::right(int* start){
+
+}
+
+char Mirror::up(int* start){
+
+}
+
+char Mirror::down(int* start){
+
+}

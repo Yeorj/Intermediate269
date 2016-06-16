@@ -9,7 +9,7 @@
 
 int main(int argc, char* argv[]){
 
-  // bool outToFile = false; // Whether to print to write to file or console TODO probably dont need this as there is a is_open() func
+  bool outToFile = false; // Whether to print to write to file or console TODO probably dont need this as there is a is_open() func
   std::ifstream inputFile;
   std::ofstream outputFile;
 
