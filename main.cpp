@@ -20,7 +20,7 @@ int main(int argc, char* argv[]){
     return 1;
   }
 
-  inputFile.open("input");
+  inputFile.open(argv[1]);
 
   Mirror encryption(&inputFile);
 
