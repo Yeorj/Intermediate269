@@ -13,4 +13,4 @@ mirror.o: mirror.h mirror.cpp
 	$(CC) $(CFLAGS) -c mirror.cpp
 
 clean:
-	rm *.o test
+	rm *.o test output

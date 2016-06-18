@@ -38,11 +38,7 @@ Mirror::Mirror(std::ifstream* input){
   }
 
   translate();
-  for(int alpha = 0; alpha < SIZE_OF_ALPHABET*2; alpha++){
-     std::cout << oriDict[alpha] << " -> " << encryptDict[alpha];
-     std::cout << "||\t||"<< oriDict[alpha + SIZE_OF_ALPHABET*2] << " -> " << encryptDict[alpha+(SIZE_OF_ALPHABET*2)] << std::endl;
-  }
-
+  
 }
 
 Mirror::~Mirror(){
@@ -70,35 +66,36 @@ void Mirror::translate(){
 
   for(int row = 0; row < SIZE_OF_ALPHABET; row++){
     int start[2] = {row,0};
-    encryptDict[row] = right(start);
+    encryptDict[row] = right(start, true);
   }
   for(int col = SIZE_OF_ALPHABET; col < SIZE_OF_ALPHABET*2; col++){
     int start[2] = {SIZE_OF_ALPHABET, col - SIZE_OF_ALPHABET};
-    encryptDict[col] = up(start);
+    encryptDict[col] = up(start, true);
   }
   for(int col = SIZE_OF_ALPHABET*2; col < SIZE_OF_ALPHABET*3; col++){
     int start[2] = {0, col - SIZE_OF_ALPHABET * 2};
-    encryptDict[col] = down(start);
+    encryptDict[col] = down(start, true);
   }
   for(int row = SIZE_OF_ALPHABET*3; row < SIZE_OF_ALPHABET*4; row++){
     int start[2] = {row - SIZE_OF_ALPHABET*3, SIZE_OF_ALPHABET};
-    encryptDict[row] = left(start);
+    encryptDict[row] = left(start, true);
   }
 
-  for(unsigned int index = 0; index < codedMsg.length(); index++){
-    for(int lcv = 0; lcv < SIZE_OF_ALPHABET * 2; lcv++){
-      if (codedMsg[index] == encryptDict[lcv]){
-        decodedMsg += oriDict[lcv];
-      }
-    }
-  }
-
+  decode();
 }
 
+void Mirror::decode(){
 
-char Mirror::left(int* start){
+  for(unsigned int index = 0; index < codedMsg.length(); index++)
+    for(int lcv = 0; lcv < (SIZE_OF_ALPHABET * 4); lcv++)
+      if (codedMsg[index] == encryptDict[lcv])
+        decodedMsg += oriDict[lcv];
+}
+
+char Mirror::left(int* start, bool first /*= false*/){
   while(true){
-    start[1]--;
+    if (!first || start[1] == 13)
+      start[1]--;
     if (start[1] == -1){
       return oriDict[start[0]];
     }else if(encryption[start[0]][start[1]] == '\\'){
@@ -106,12 +103,14 @@ char Mirror::left(int* start){
     }else if(encryption[start[0]][start[1]] == '/'){
       return down(start);
     }
+    first = false;
   }
 }
 
-char Mirror::right(int* start){
+char Mirror::right(int* start, bool first /*= false*/){
   while (true){
-    start[1]++;
+    if (!first || start[1] == -1)
+      start[1]++;
     if(start[1] == 13){
       return oriDict[start[0]+ (SIZE_OF_ALPHABET * 3)]; /* Times 3 beacause you need to get passed first alphabet plus first half of letters */
     }else if(encryption[start[0]][start[1]] == '\\'){
@@ -119,14 +118,16 @@ char Mirror::right(int* start){
     }else if(encryption[start[0]][start[1]] =='/'){
       return up(start);
     }
+    first = false;
   }//end of while
 
 }
 
-char Mirror::up(int* start){
+char Mirror::up(int* start, bool first /*= false*/){
 
   while(true){
-    start[0]--;
+    if (!first || start[0] == 13)
+      start[0]--;
     if (start[0] == -1){
       return oriDict[start[1] + (SIZE_OF_ALPHABET * 2)]; // Pass the first alphabet
     }else if(encryption[start[0]][start[1]] == '\\'){
@@ -134,13 +135,15 @@ char Mirror::up(int* start){
     }else if(encryption[start[0]][start[1]] == '/'){
       return right(start);
     }
+    first = false;
   }
 
 }
 
-char Mirror::down(int* start){
+char Mirror::down(int* start, bool first/* = false*/){
   while (true){
-    start[0]++;
+    if (!first || start[0] == -1)
+      start[0]++;
     if(start[0] == 13){
       return oriDict[start[1] + SIZE_OF_ALPHABET];
     }else if(encryption[start[0]][start[1]] == '\\'){
@@ -148,5 +151,6 @@ char Mirror::down(int* start){
     }else if(encryption[start[0]][start[1]] =='/'){
       return left(start);
     }
+    first = false;
   }
 }

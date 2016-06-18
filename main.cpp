@@ -9,7 +9,6 @@
 
 int main(int argc, char* argv[]){
 
-  bool outToFile = false; // Whether to print to write to file or console TODO probably dont need this as there is a is_open() func
   std::ifstream inputFile;
   std::ofstream outputFile;
 
@@ -24,24 +23,16 @@ int main(int argc, char* argv[]){
   inputFile.open("input");
 
   Mirror encryption(&inputFile);
-  char** array = encryption.getEncryption();
 
-  for(int row = 0; row < SIZE_OF_ALPHABET; row++){
-    for (int column = 0; column < SIZE_OF_ALPHABET; column++){
-      std::cout << array[row][column];
-    }
-    std::cout<<std::endl;
-  }
 
-  // If there is less than 3 arguements then don't open the output file
   if (argc == INPUT_MAX_SIZE){
-    outToFile = true;
     outputFile.open(argv[2]);
+    outputFile << encryption.getDecodedMsg() << std::endl;
+    outputFile.close();
   }
-  std::cout << std::endl << encryption.getDecodedMsg();
 
+  std::cout << encryption.getDecodedMsg() << std::endl;
 
   inputFile.close();
-  outputFile.close();
   return 0;
 }

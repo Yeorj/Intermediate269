@@ -1,6 +1,5 @@
 #include <fstream>
 #include <string>
-#include <iostream>
 #include <cctype>
 
 #ifndef MIRROR_H
@@ -30,11 +29,14 @@ class Mirror{
     /* Translates the library */
     void translate();
 
+    /* Decode */
+    void decode();
+
     /* Returns the x and y coordinate of last position */
-    char left(int*);
-    char right(int*);
-    char up(int*);
-    char down(int*);
+    char left(int*, bool first = false);
+    char right(int*, bool first = false);
+    char up(int*, bool first = false);
+    char down(int*, bool first = false);
 };
 
 
