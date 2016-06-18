@@ -38,7 +38,7 @@ int main(int argc, char* argv[]){
     outToFile = true;
     outputFile.open(argv[2]);
   }
-
+  std::cout << std::endl << encryption.getDecodedMsg();
 
 
   inputFile.close();
